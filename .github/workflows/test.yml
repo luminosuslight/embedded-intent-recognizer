@@ -1,0 +1,34 @@
+# Run unit tests using CTest
+name: Tests
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  checkout-and-check-formatting:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Checkout Catch2
+      uses: actions/checkout@v2
+      with:
+        repository: 'catchorg/Catch2'
+        path: 'Catch2'
+    - name: Build Catch2
+      run: |
+        pushd ${{ github.workspace }}/Catch2
+        cmake -Bbuild -H. -DBUILD_TESTING=OFF
+        sudo cmake --build build/ --target install
+        echo "Catch2_DIR=/usr/local/lib/cmake/Catch2/" >> $GITHUB_ENV
+        popd
+    - name: Run unit tests
+      uses: HorstBaerbel/action-ctest@1.0
+      with:
+        sourcedir: '.'
+        builddir: 'build'
+        cmakeoptions: '--config Release'
+        ctestoptions: ''
