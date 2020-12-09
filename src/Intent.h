@@ -13,11 +13,14 @@ struct PatternRegex {
 };
 
 
+/**
+ * @brief The Intent class repsents the intent an utterance can have.
+ */
 class Intent
 {
 public:
     /**
-     * @brief Intent repsents the intent an utterance can have
+     * @brief Intent constructs a new intent.
      * @param name a short descriptive name
      * @param patterns a list of patterns that are used to find phrases that match this intent
      *
