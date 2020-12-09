@@ -39,7 +39,7 @@ void IntentRecognizer::setupIntents()
     Intent weatherCity("Get Weather City", {
                            "weather <text> in <city:text> today",
                            "weather <text> in <city:text>",
-                           "will it rain in <city:text>"
+                           "rain <text> in <city:text>"
                        });
     m_intents.push_back(weatherCity);
 
