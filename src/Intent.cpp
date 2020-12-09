@@ -25,6 +25,21 @@ double Intent::getScore(const std::string &phrase) const
     return 0.0;
 }
 
+std::map<std::string, std::string> Intent::getAttributes(const std::string &phrase) const
+{
+    std::map<std::string, std::string> attributes;
+    for (const auto &patternRegex: m_patternRegexes) {
+        const auto match = std::sregex_iterator(phrase.begin(), phrase.end(), patternRegex.regex);
+        if (match != std::sregex_iterator()) {
+            for (const auto &namedGroup: patternRegex.namedGroups) {
+                attributes[namedGroup.second] = match->str(namedGroup.first);
+            }
+            break;
+        }
+    }
+    return attributes;
+}
+
 void Intent::compilePatternsToRegexes()
 {
     for (std::string pattern: m_patterns) {

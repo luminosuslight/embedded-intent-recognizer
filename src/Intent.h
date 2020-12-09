@@ -27,6 +27,13 @@ public:
      */
     double getScore(const std::string &phrase) const;
 
+    /**
+     * @brief getAttributes returns the attributes contained in a matching input phrase
+     * @param phrase the input phrase
+     * @return a map with attribute name - attribute value pairs
+     */
+    std::map<std::string, std::string> getAttributes(const std::string &phrase) const;
+
 private:
     /**
      * @brief Intent::compilePatternsToRegexes compiles the domain specific language used for the patterns to
