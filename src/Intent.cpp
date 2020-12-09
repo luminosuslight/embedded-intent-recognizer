@@ -48,7 +48,7 @@ void Intent::compilePatternsToRegexes()
         }
 
         // for normal placeholders like "<text> weather <word>"
-        pattern = std::regex_replace(pattern, std::regex("<text>\\s*"), "([\\w\\+\\-\\*\\\\,\\.:'äöüßÄÖÜ]+\\s*)*");
+        pattern = std::regex_replace(pattern, std::regex("<text>\\s*"), "([\\w\\+\\-\\*\\\\,\\.:'äöüßÄÖÜ\\s]*)");
         pattern = std::regex_replace(pattern, std::regex("<word>"), "([\\w.,]*)");
         patternRegex.regex = std::regex(pattern, std::regex_constants::icase);
 
