@@ -5,6 +5,10 @@
 
 #include "Intent.h"
 
+/**
+ * @brief The IntentRecognizer class sets up and stores all available intents.
+ * It allows to find the best matching of those intents for a certain input phrase.
+ */
 class IntentRecognizer
 {
 public:
