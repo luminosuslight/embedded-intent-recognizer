@@ -14,11 +14,6 @@ const std::string &Intent::getName() const
     return m_name;
 }
 
-/**
- * @brief Intent::getScore returns a score that says how well this intent suits the input phrase
- * @param phrase the input phrase
- * @return a score greater than or equal 0
- */
 double Intent::getScore(const std::string &phrase) const
 {
     for (const auto &regexItem: m_patternRegexes) {
@@ -30,10 +25,6 @@ double Intent::getScore(const std::string &phrase) const
     return 0.0;
 }
 
-/**
- * @brief Intent::compilePatternsToRegexes compiles the domain specific language used for the patterns to
- * actual regex instances.
- */
 void Intent::compilePatternsToRegexes()
 {
     for (std::string pattern: m_patterns) {

@@ -14,9 +14,18 @@ public:
 
     const std::string &getName() const;
 
+    /**
+     * @brief Intent::getScore returns a score that says how well this intent suits the input phrase
+     * @param phrase the input phrase
+     * @return a score greater than or equal 0
+     */
     double getScore(const std::string &phrase) const;
 
 private:
+    /**
+     * @brief Intent::compilePatternsToRegexes compiles the domain specific language used for the patterns to
+     * actual regex instances.
+     */
     void compilePatternsToRegexes();
 
 protected:
