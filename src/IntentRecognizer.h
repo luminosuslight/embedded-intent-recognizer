@@ -11,9 +11,13 @@ public:
     IntentRecognizer();
 
     /**
-     * @brief IntentRecognizer::getIntent tries to get the intent of an input phrase
+     * @brief IntentRecognizer::getIntent returns the name of the best matching intent for an input phrase
      * @param phrase an input phrase, e.g. an utterance by a user
      * @return "Intent: <name of intent>"
+     *
+     * The best matching intent is found by comparing the suitability-score of all available intents.
+     * If one intent matches using a short pattern and another matches using a longer pattern on
+     * the same input phrase, the latter intent is chosen.
      */
     std::string getIntent(const std::string &phrase) const;
 
