@@ -7,15 +7,17 @@ IntentRecognizer::IntentRecognizer()
 
 std::string IntentRecognizer::getIntent(const std::string &phrase) const
 {
-    if (phrase == "What is the weather like today?") {
-        return "Intent: Get Weather";
-    } else if (phrase == "What is the weather like in Paris today?" ||
-               phrase == "What is the weather like in New York today?") {
-        return "Intent: Get Weather City";
-    } else if (phrase == "Am I free at 13:00 PM tomorrow?") {
-        return "Intent: Check calendar";
-    } else if (phrase == "Tell me an interesting fact.") {
-        return "Intent: Get Fact";
+    double bestScore = 0.0;
+    std::optional<Intent> bestIntent;
+    for (const auto &intent: m_intents) {
+        const double score = intent.getScore(phrase);
+        if (score > bestScore) {
+            bestScore = score;
+            bestIntent = intent;
+        }
+    }
+    if (bestIntent) {
+        return "Intent: " + bestIntent->getName();
     }
     return "Intent: unknown";
 }
