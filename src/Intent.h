@@ -6,6 +6,12 @@
 #include <string>
 #include <vector>
 
+struct PatternRegex {
+    int maxScore = 0;
+    std::regex regex;
+    std::map<int, std::string> namedGroups;
+};
+
 
 class Intent
 {
@@ -31,8 +37,7 @@ private:
 protected:
     std::string m_name;
     std::vector<std::string> m_patterns;
-    std::vector<std::pair<int, std::regex>> m_patternRegexes;
-    std::map<int, std::string> m_namedGroups;
+    std::vector<PatternRegex> m_patternRegexes;
 };
 
 #endif // INTENT_H

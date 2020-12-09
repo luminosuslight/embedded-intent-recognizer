@@ -16,10 +16,10 @@ const std::string &Intent::getName() const
 
 double Intent::getScore(const std::string &phrase) const
 {
-    for (const auto &regexItem: m_patternRegexes) {
-        const auto match = std::sregex_iterator(phrase.begin(), phrase.end(), regexItem.second);
+    for (const auto &patternRegex: m_patternRegexes) {
+        const auto match = std::sregex_iterator(phrase.begin(), phrase.end(), patternRegex.regex);
         if (match != std::sregex_iterator()) {
-            return regexItem.first;
+            return patternRegex.maxScore;
         }
     }
     return 0.0;
@@ -28,7 +28,9 @@ double Intent::getScore(const std::string &phrase) const
 void Intent::compilePatternsToRegexes()
 {
     for (std::string pattern: m_patterns) {
-        const int maxScore = pattern.length();
+        PatternRegex patternRegex;
+        patternRegex.maxScore = pattern.length();
+
         // for named capturing patterns like "weather in <city:text>"
         std::regex group("<[\\w:]+>");
         std::regex namedGroup("<(\\w+):(\\w+)>");
@@ -40,17 +42,18 @@ void Intent::compilePatternsToRegexes()
             const auto namedGroupMatch = std::sregex_iterator(matchedString.begin(), matchedString.end(), namedGroup);
             if (namedGroupMatch != std::sregex_iterator()) {
                 pattern = pattern.replace(match.position(), match.length(), "<" + namedGroupMatch->str(2) + ">");
-                m_namedGroups.insert({groupIndex, namedGroupMatch->str(1)});
+                patternRegex.namedGroups.insert({groupIndex, namedGroupMatch->str(1)});
             }
             ++groupIndex;
         }
 
-        // for normal placeholders like "<text> weather <text>"
+        // for normal placeholders like "<text> weather <word>"
         pattern = std::regex_replace(pattern, std::regex("<text>\\s*"), "([\\w\\+\\-\\*\\\\,\\.:'äöüßÄÖÜ]+\\s*)*");
         pattern = std::regex_replace(pattern, std::regex("<word>"), "([\\w.,]*)");
+        patternRegex.regex = std::regex(pattern, std::regex_constants::icase);
 
-        m_patternRegexes.push_back({maxScore, std::regex(pattern, std::regex_constants::icase)});
+        m_patternRegexes.push_back(patternRegex);
     }
     std::sort(m_patternRegexes.begin(), m_patternRegexes.end(),
-              [](const auto &lhs, const auto &rhs) { return lhs.first > rhs.first; });
+              [](const auto &lhs, const auto &rhs) { return lhs.maxScore > rhs.maxScore; });
 }
