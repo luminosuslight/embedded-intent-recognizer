@@ -1,5 +1,7 @@
 #include "IntentRecognizer.h"
 
+#include <iostream>
+
 IntentRecognizer::IntentRecognizer()
 {
     setupIntents();
@@ -17,6 +19,10 @@ std::string IntentRecognizer::getIntent(const std::string &phrase) const
         }
     }
     if (bestIntent) {
+        const auto attributes = bestIntent->getAttributes(phrase);
+        for (const auto &attribute: attributes) {
+            std::cout << attribute.first << ": " << attribute.second << std::endl;
+        }
         return "Intent: " + bestIntent->getName();
     }
     return "Intent: unknown";
