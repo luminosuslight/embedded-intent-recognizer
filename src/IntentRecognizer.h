@@ -10,6 +10,11 @@ class IntentRecognizer
 public:
     IntentRecognizer();
 
+    /**
+     * @brief IntentRecognizer::getIntent tries to get the intent of an input phrase
+     * @param phrase an input phrase, e.g. an utterance by a user
+     * @return "Intent: <name of intent>"
+     */
     std::string getIntent(const std::string &phrase) const;
 
 private:
