@@ -17,4 +17,9 @@ TEST_CASE( "check intent recognition", "[intents]" ) {
     REQUIRE( recognizer.getIntent("What is the weather like in New York today?") == "Intent: Get Weather City" );
     REQUIRE( recognizer.getIntent("Am I free at 13:00 PM tomorrow?") == "Intent: Check calendar" );
     REQUIRE( recognizer.getIntent("Tell me an interesting fact.") == "Intent: Get Fact" );
+
+    REQUIRE( recognizer.getIntent("Do I have an appointment at 13:00pm tomorrow?") == "Intent: Check calendar" );
+    REQUIRE( recognizer.getIntent("Will it rain tomorrow in Paris?") == "Intent: Get Weather City" );
+
+
 }
